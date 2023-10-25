@@ -1,31 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google font link -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&family=Roboto:wght@100&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="CSS/index.css" type="text/css">
     <title>Document</title>
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>Find your film</h1>
-            <p>My Watchlist</p>  
-         </header>
-         <main>
-             <div class="searchbar">
-                 <input type:"text" placeholder="🔍 Search for a movie">
-                 <button>Search</button>
-             </div>
-             <img src="IMAGES/Icon.png" alt="explore icon">
-             <p>Start exploring</p>
-             
-         </main>
+            <p>My Watchlist</p>
+            <div class="searchbar">
+                <input type:"text" placeholder="🔍 Search for a movie">
+                <button>Search</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- <img src="./Images/Icon.png" alt="explore icon"> -->
+            <!-- <p>Start exploring</p> -->
+            <div class="feed">
+                <img class="img-poster"
+                    src="https://m.media-amazon.com/images/M/MV5BNjM0NTc0NzItM2FlYS00YzEwLWE0YmUtNTA2ZWIzODc2OTgxXkEyXkFqcGdeQXVyNTgwNzIyNzg@._V1_SX300.jpg"
+                    alt="Guardians of the Galaxy Vol. 2 poster" />
+                <h1 class="movie-title">Guardians of the Galaxy Vol. 2 </h1>
+                <p class="rate">⭐ 7.6</p>
+                <p class="duration">136 min</p>
+                <p class="genre">Action, Adventure, Comedy</p>
+                <button id="watchlist-btn" class="watchlist-button"><img src="./Images/add_icon.png"> Watchlist</button>
+                <p class="plot">The Guardians struggle to keep together as a team while dealing with their personal
+                    family issues, notably Star-Lord's encounter with his father, the ambitious celestial being Ego.
+                </p>
+            </div>
+            <hr>
+        </main>
     </div>
-     <script src="index.js"></script>
+    <script src="index.js"></script>
 </body>
+
 </html>

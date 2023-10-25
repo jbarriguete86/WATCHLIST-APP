@@ -1,94 +1,211 @@
 /* APP GENERAL CHANGES */
 
-*{
-    margin: 0;
+* {
     box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
     font-family: 'Inter', sans-serif;
 }
+
+
+
 
 body,
 header,
 main,
-.searchbar{
+.searchbar {
     display: flex;
 }
 
-body{
+body {
     background-color: #f8f4f5;
-    margin-top: 5em;
+    width: 100vw;
     align-items: center;
-    justify-content: center;;
+    justify-content: center;
 }
-.container{
+
+.container {
+    margin: auto;
+    margin-top: 2em;
     background-color: white;
     flex-direction: column;
     position: relative;
-    max-width: 550px;
-    height: 779px;
+    width: 90%;
+    max-width: 1280px;
+    /* max-width: 550px; */
 }
 
 /* HEADER */
 
 
-header{  
+header {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 30%;
+    height: 200px;
     background-image: url('../IMAGES/bckg.png');
     background-color: black;
     color: #FFFFFF;
-   
+
 }
 
 header h1 {
-    font-size: 2.67rem;
+    font-size: 2rem;
     font-weight: 800;
     margin-left: 1.8em;
 }
 
-header p{
+header p {
     font-size: .87rem;
     font-weight: 700;
-    margin-right: 3em;
+    margin-right: 5em;
 }
 
-
-/* MAIN */
-.searchbar{
+.searchbar {
     position: absolute;
     width: 84%;
     height: 38px;
-    top: 27%;
+    top: 40%;
     left: 7%;
-    
+
 }
 
-input{
+input {
     width: 70%;
     margin: 0;
     border-radius: 5px;
 }
 
-.searchbar button{
+.searchbar button {
     font-weight: 500;
     width: 30%;
     margin: 0;
     border-radius: 5px;
 }
 
+/* MAIN */
 
-main{
-    height: 70%;
+
+
+main {
+    width: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-main p{
+main p {
     color: #DFDDDD;
     font-size: 1.12rem;
     font-weight: 700;
 }
 
+/* FEED */
 
+.feed {
+    margin-top: 3em;
+    margin-right: auto;
+    margin-left: auto;
+    width: 80%;
+    display: grid;
+    grid-template: repeat(5, auto)/repeat(7, auto);
+    grid-template-areas:
+        "picture . . . . . ."
+        "picture title title title title  rate rate "
+        "picture time . genre genre . watchlist"
+        "picture plot  plot plot plot plot plot"
+        "picture . . . . . .";
+    overflow: auto;
+    /* grid-gap: 0; */
+}
+
+
+.img-poster {
+    margin: auto;
+    margin-right: 2em;
+    grid-area: picture;
+    width: 100px;
+    object-fit: cover;
+}
+
+
+.movie-title {
+    grid-area: title;
+    font-size: .6rem;
+    color: black;
+
+}
+
+.rate {
+    grid-area: rate;
+    font-size: 0.5rem;
+    font-weight: 400;
+    color: black;
+}
+
+
+.duration {
+    grid-area: time;
+    font-size: 0.5rem;
+    font-weight: 400;
+    color: black;
+
+}
+
+.genre {
+    grid-area: genre;
+    font-size: 0.5rem;
+    font-weight: 400;
+    color: black;
+
+}
+
+.watchlist-button {
+    grid-area: watchlist;
+    font-size: 0.6rem;
+    background: none;
+    border: none;
+    vertical-align: center;
+
+}
+
+.plot {
+    grid-area: plot;
+    font-size: .6rem;
+    color: #6B7280;
+    font-weight: 400;
+    overflow: auto;
+
+}
+
+hr {
+    width: 80%;
+    border: none;
+    border-bottom: solid #E5E7EB 1px;
+}
+
+/* BREAK POINTS */
+
+@media (min-width: 600px) {
+    .searchbar {
+        top: 45%
+    }
+
+
+    .feed {
+        width: 80%;
+    }
+
+    header h1 {
+        font-size: 2.67rem;
+    }
+
+    header p {
+        font-size: .87rem;
+    }
+
+}
