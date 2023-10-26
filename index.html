@@ -18,29 +18,19 @@
         <header>
             <h1>Find your film</h1>
             <p>My Watchlist</p>
-            <div class="searchbar">
-                <input type:"text" placeholder="🔍 Search for a movie">
-                <button>Search</button>
-            </div>
         </header>
 
-        <main>
-            <!-- <img src="./Images/Icon.png" alt="explore icon"> -->
-            <!-- <p>Start exploring</p> -->
-            <div class="feed">
-                <img class="img-poster"
-                    src="https://m.media-amazon.com/images/M/MV5BNjM0NTc0NzItM2FlYS00YzEwLWE0YmUtNTA2ZWIzODc2OTgxXkEyXkFqcGdeQXVyNTgwNzIyNzg@._V1_SX300.jpg"
-                    alt="Guardians of the Galaxy Vol. 2 poster" />
-                <h1 class="movie-title">Guardians of the Galaxy Vol. 2 </h1>
-                <p class="rate">⭐ 7.6</p>
-                <p class="duration">136 min</p>
-                <p class="genre">Action, Adventure, Comedy</p>
-                <button id="watchlist-btn" class="watchlist-button"><img src="./Images/add_icon.png"> Watchlist</button>
-                <p class="plot">The Guardians struggle to keep together as a team while dealing with their personal
-                    family issues, notably Star-Lord's encounter with his father, the ambitious celestial being Ego.
-                </p>
+        <div class="searchbar">
+            <input id="search-input" type="text" placeholder="🔍 Search for a movie">
+            <button id="search-btn">Search</button>
+        </div>
+
+        <main id="main-feed">
+            <div class="empty-feed">
+            <img src="./Images/Icon.png" alt="explore icon">
+            <p>Start exploring</p>
             </div>
-            <hr>
+            <!-- The movies will be populated with js -->
         </main>
     </div>
     <script src="index.js"></script>
