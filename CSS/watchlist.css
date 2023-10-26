@@ -1,0 +1,249 @@
+/* APP GENERAL CHANGES */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+
+
+
+body,
+header,
+main,
+.container,
+.empty-feed,
+.searchbar{
+    display: flex;
+}
+
+body{
+    flex-direction: column;
+    background-color: #f8f4f5;
+    margin-top: 5em;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.container{
+    margin: auto;
+   max-width: 1280px;
+   background-color: white;
+   flex-direction: column;
+   width: 90%;
+}
+
+a,
+button{
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+    font-weight: 700;
+}
+/* HEADER */
+
+
+header {
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 200px;
+    background-image: url('../IMAGES/bckg.png');
+    background-color: black;
+    color: #FFFFFF;
+
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-left: 1.8em;
+}
+
+header a {
+    color: #ffffff;
+    font-size: .87rem;
+    margin-right: 5em;
+}
+
+.searchbar {
+    margin: 0  auto;
+    margin-top: -15px;
+    flex-direction: row;
+    justify-content:center;
+    width: 84%;
+    height: 38px;
+
+}
+
+input {
+    width: 60%;
+    border-radius: 5px;
+}
+
+.searchbar button {
+    font-weight: 500;
+    width: 30%;
+    border-radius: 5px;
+}
+
+/* MAIN */
+
+
+
+main {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+main p {
+    color: #DFDDDD;
+    font-size: 1.12rem;
+    font-weight: 700;
+}
+
+.empty-feed{
+    width: 100%;
+    height: 500px; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-feed a{
+    color: black;
+}
+
+
+
+
+/* FEED */
+
+.feed {
+    margin-top: 3em;
+    margin-right: auto;
+    margin-left: auto;
+    width: 80%;
+    display: grid;
+    grid-template: repeat(5, auto)/repeat(7, auto);
+    grid-template-areas:
+        "picture . . . . . ."
+        "picture title title title title  rate rate "
+        "picture time . genre genre . watchlist"
+        "picture plot  plot plot plot plot plot"
+        "picture . . . . . .";
+    overflow: auto;
+}
+
+
+.img-poster {
+    margin: auto;
+    margin-right: 2em;
+    grid-area: picture;
+    width: 100px;
+    object-fit: cover;
+}
+
+
+.movie-title {
+    grid-area: title;
+    font-size: .6rem;
+    color: black;
+
+}
+
+.rate {
+    grid-area: rate;
+    font-size: 0.5rem;
+    font-weight: 400;
+    color: black;
+}
+
+
+.duration {
+    grid-area: time;
+    font-size: 0.5rem;
+    font-weight: 400;
+    color: black;
+
+}
+
+.genre {
+    grid-area: genre;
+    font-size: 0.5rem;
+    font-weight: 400;
+    color: black;
+
+}
+
+.watchlist-button {
+    grid-area: watchlist;
+    font-size: 0.6rem;
+    background: none;
+    border: none;
+    vertical-align: center;
+
+}
+
+.plot {
+    grid-area: plot;
+    font-size: .6rem;
+    color: #6B7280;
+    font-weight: 400;
+    overflow: auto;
+
+}
+
+hr {
+    width: 80%;
+    border: none;
+    border-bottom: solid #E5E7EB 1px;
+}
+
+/* BREAK POINTS */
+
+@media (min-width: 600px) {
+    .searchbar {
+        top: 45%
+    }
+
+
+    .feed {
+        width: 80%;
+    }
+
+    header h1 {
+        font-size: 2.67rem;
+    }
+
+    header p {
+        font-size: 1.2rem;
+    }
+
+
+    .rate,
+    .duration,
+    .genre {
+        font-size: 0.9rem;
+    
+    }
+    
+    .remove-button,
+    .plot,
+    .movie-title {
+        font-size: 1.2rem;
+    }
+    
+
+}

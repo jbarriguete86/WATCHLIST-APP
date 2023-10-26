@@ -40,6 +40,11 @@ body{
    width: 90%;
 }
 
+a,
+button{
+    cursor: pointer;
+}
+
 /* HEADER */
 
 
@@ -60,8 +65,10 @@ header h1 {
     margin-left: 1.8em;
 }
 
-header p {
+header a {
+    color: #ffffff;
     font-size: .87rem;
+    text-decoration: none;
     font-weight: 700;
     margin-right: 5em;
 }
