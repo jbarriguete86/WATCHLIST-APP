@@ -1,6 +1,6 @@
 const searchBtn= document.getElementById('search-btn')
 const searchInput = document.getElementById('search-input')
-const mainFeed = document.getElementById('main-feed')
+const mainFeedSearch = document.getElementById('feed-search')
 let getFeed =[]
 let moviesId = []
 
@@ -14,15 +14,14 @@ const FeedHtml = movie =>{
         <p class="rate">⭐ ${movie.Ratings[0].Value.replace(/\/10$/, "")}</p>
         <p class="duration">${movie.Runtime}</p>
         <p class="genre">${movie.Genre}</p>
-        <button id="watchlist-btn-${movie.imdbID}" class="watchlist-button"><img src="./Images/add_icon.png"> Watchlist</button>
+        <button class="watchlist-button"><img src="./Images/add_icon.png"> Watchlist</button>
         <p class="plot">${movie.Plot}
         </p>
     </div>
     <hr>
     `)
-    mainFeed.innerHTML = getFeed.join('')
+    mainFeedSearch.innerHTML = getFeed.join('')
 }
-
 
 
 searchBtn.addEventListener('click', ()=>{
@@ -32,10 +31,6 @@ searchBtn.addEventListener('click', ()=>{
         .then(res=> res.json())
         .then(data => {
             if(!moviesId.includes(data.imdbID)){
-                moviesId.unshift(`${data.imdbID}`)
-            const savedMovies = JSON.stringify(moviesId)
-            localStorage.setItem("watchlist", savedMovies)
-            console.log(moviesId)
             FeedHtml(data)
         }else{
             alert("This movie is already in the checklist")
@@ -45,3 +40,16 @@ searchBtn.addEventListener('click', ()=>{
         searchInput.value = ""
     } 
 })
+
+
+
+document.addEventListener('click', e=>{
+    if (event.target.classList.contains("watchlist-button")) {
+    const feedDivId = event.target.closest(".feed").id;
+    moviesId.includes(feedDivId) ? "" : moviesId.unshift(feedDivId)
+    const savedMovies = JSON.stringify(moviesId)
+    localStorage.setItem("watchlist", savedMovies)
+    console.log(savedMovies) 
+  }
+})
+
