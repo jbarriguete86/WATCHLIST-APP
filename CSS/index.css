@@ -26,7 +26,6 @@ main,
 body{
     flex-direction: column;
     background-color: #f8f4f5;
-    margin-top: 5em;
     align-items: center;
     justify-content: center;
 }
@@ -34,10 +33,9 @@ body{
 
 .container{
     margin: auto;
-   max-width: 1280px;
    background-color: white;
    flex-direction: column;
-   width: 90%;
+   width: 100%;
 }
 
 a,
@@ -75,7 +73,7 @@ header a {
 
 .searchbar {
     margin: 0  auto;
-    margin-top: -15px;
+    margin-top: -15px;;
     flex-direction: row;
     justify-content:center;
     width: 84%;
@@ -86,12 +84,14 @@ header a {
 input {
     width: 60%;
     border-radius: 5px;
+    flex: 1;
 }
 
 .searchbar button {
     font-weight: 500;
     width: 30%;
     border-radius: 5px;
+    justify-self: end;
 }
 
 /* MAIN */
@@ -124,17 +124,19 @@ main p {
 
 .feed {
     margin-top: 3em;
-    margin-right: auto;
-    margin-left: auto;
+    /* margin-right: auto;
+    margin-left: auto; */
     width: 80%;
     display: grid;
-    grid-template: repeat(5, auto)/repeat(7, auto);
+    grid-template: repeat(5, auto)/   repeat(7, autofill);
     grid-template-areas:
         "picture . . . . . ."
         "picture title title title title  rate rate "
         "picture time . genre genre . watchlist"
         "picture plot  plot plot plot plot plot"
         "picture . . . . . .";
+    justify-content: start;
+    align-items: start;
     overflow: auto;
 }
 
@@ -157,6 +159,7 @@ main p {
 
 .rate {
     grid-area: rate;
+    justify-self: end;
     font-size: 0.5rem;
     font-weight: 400;
     color: black;
@@ -179,12 +182,13 @@ main p {
 
 }
 
-.watchlist-button {
+.add-remove-btn {
     grid-area: watchlist;
     font-size: 0.6rem;
     background: none;
     border: none;
     vertical-align: center;
+    justify-self: end;
 
 }
 
@@ -193,6 +197,7 @@ main p {
     font-size: .6rem;
     color: #6B7280;
     font-weight: 400;
+    justify-self: end;
     overflow: auto;
 
 }
@@ -206,6 +211,14 @@ hr {
 /* BREAK POINTS */
 
 @media (min-width: 600px) {
+    body{
+        margin-top: 5em;
+    }
+    
+    .container{
+        max-width: 1280px;
+    }
+    
     .searchbar {
         top: 45%
     }
@@ -235,7 +248,7 @@ hr {
     
     }
     
-    .watchlist-button,
+    .add-remove-btn,
     .plot,
     .movie-title {
         font-size: 1.2rem;
