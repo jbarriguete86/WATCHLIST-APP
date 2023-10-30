@@ -136,7 +136,7 @@ main p {
     margin-left: auto;
     width: 80%;
     display: grid;
-    grid-template: repeat(5, auto)/repeat(7, auto);
+    grid-template: repeat(5, auto)/repeat(7, autofill);
     grid-template-areas:
         "picture . . . . . ."
         "picture title title title title  rate rate "
@@ -187,7 +187,7 @@ main p {
 
 }
 
-.watchlist-button {
+.add-remove-btn {
     grid-area: watchlist;
     font-size: 0.6rem;
     background: none;
@@ -239,7 +239,7 @@ hr {
     
     }
     
-    .remove-button,
+    .add-remove-btn,
     .plot,
     .movie-title {
         font-size: 1.2rem;
