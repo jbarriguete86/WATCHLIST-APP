@@ -1,5 +1,5 @@
 
-import {getFeedHtml, movieFetch, movieFetchId} from './utilities.js'
+import {getFeedHtml, movieFetch, movieFetchId, saveLocalStorage, deleteLocalStorage} from './utilities.js'
 
 
 const searchInput = document.getElementById('search-input')
@@ -65,11 +65,11 @@ let setFeed=[]
 //   My watchlist link
 if (e.target.id === 'watchlist-page'){
     if(savedId){
-        const savedMovies = savedId
-        localStorage.setItem("myWatchlist", JSON.stringify(savedMovies))
+        saveLocalStorage(savedId)
     }
 }
  })
+
 
 
 

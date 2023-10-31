@@ -1,3 +1,6 @@
+
+
+
 const getFeedHtml = (movie,feedDiv) =>{
     return `
     <div class="feed" id="${movie.imdbID}">
@@ -18,6 +21,7 @@ const getFeedHtml = (movie,feedDiv) =>{
     `
 }
 
+// fetching the API
 async function movieFetch(movieTitle){
     const res = await fetch(`https://www.omdbapi.com/?apikey=9814e296&t=${movieTitle}`)
     const data = await res.json()
@@ -31,6 +35,17 @@ async function movieFetchId(movieId){
         return data
 }
 
+// local storage functions
+const saveLocalStorage = movieArray =>{
+    const savedMovies = movieArray
+    localStorage.setItem("myWatchlist", JSON.stringify(savedMovies))
+}
 
-export{getFeedHtml, movieFetch, movieFetchId}
+const deleteLocalStorage = () =>{
+    localStorage.clear()
+}
+
+
+
+export{getFeedHtml, movieFetch, movieFetchId, saveLocalStorage, deleteLocalStorage}
 
