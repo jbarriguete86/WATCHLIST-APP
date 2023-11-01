@@ -41,11 +41,8 @@ const saveLocalStorage = movieArray =>{
     localStorage.setItem("myWatchlist", JSON.stringify(savedMovies))
 }
 
-const deleteLocalStorage = () =>{
-    localStorage.clear()
-}
 
 
 
-export{getFeedHtml, movieFetch, movieFetchId, saveLocalStorage, deleteLocalStorage}
+export{getFeedHtml, movieFetch, movieFetchId, saveLocalStorage}
 

@@ -1,35 +1,31 @@
 
-import {getFeedHtml, movieFetch, movieFetchId, saveLocalStorage, deleteLocalStorage} from './utilities.js'
+import {getFeedHtml, movieFetch, movieFetchId, saveLocalStorage} from './utilities.js'
 
 
 const searchInput = document.getElementById('search-input')
 const mainFeedSearch = document.getElementById('feed-search')
-const storedData = localStorage.getItem("myWatchlist");
+const storedData = localStorage.getItem("myWatchlist")
+const receivedData = JSON.parse(storedData)
 let moviesId = [] 
 let savedId = []
 let setFeed=[]
 
-
-
-
-// localstorage access
-// if (storedData) {
-//     const receivedData = JSON.parse(storedData)
-//     moviesId = receivedData
-//     mainFeedSearch.innerHTML =""
-//     console.log(moviesId)
-//     moviesId.forEach(id =>{
-//       fetch(`https://www.omdbapi.com/?apikey=9814e296&i=${id}`)
-//               .then(res=> res.json())
-//               .then(data => {
-//                 mainFeedSearch.innerHTML +=getFeedHtml(data, mainFeedSearch)
-//                   const button = document.querySelector(`.watchlist-button-${data.imdbID}`)
-//                   button.innerHTML =`<img src="./Images/remove_icon.png"> Remove from watchlist`
-//           })
-//     })
-    
-//   }
-
+function loadLocalStorage(){
+    if (!receivedData.length <= 0) {
+        mainFeedSearch.innerHTML =""
+    savedId = receivedData
+    savedId.forEach(async(element) =>{
+        let movieEl = await movieFetchId(element)
+        setFeed.unshift(getFeedHtml(movieEl, mainFeedWatchlist))
+        mainFeedWatchlist.innerHTML = setFeed
+})} else {
+    mainFeedWatchlist.innerHTML = 
+    `<div class="empty-feed">
+    <p>Your watchlist is looking a little empty...</p>
+    <a href="index.html"><img src="./Images/add_icon.png"> Let's add some movies!</a>
+    </div>`
+}
+}
 
  document.addEventListener('click', async (e)=>{
     // Search button
@@ -51,15 +47,17 @@ let setFeed=[]
     if (e.target.classList.contains("add-remove-btn")) {
     const feedDivId = e.target.closest(".feed").id
     const watchlistBtn =  document.querySelector(`.watchlist-button-${feedDivId}`)
-    if(watchlistBtn.innerHTML === `<img src="./Images/add_icon.png"> Watchlist`){
-        savedId.includes(feedDivId) ? "" : savedId.unshift(feedDivId)
+    console.log(watchlistBtn)
+    if (!savedId.includes(feedDivId)){
+        savedId.unshift(feedDivId)
         watchlistBtn.innerHTML = `<img src="./Images/remove_icon.png"> Remove from watchlist`
         console.log(savedId)
-    } else {
+    } else{
+        const index = savedId.indexOf(feedDivId)
+        savedId.splice(index, 1)
         watchlistBtn.innerHTML = `<img src="./Images/add_icon.png"> Watchlist`
-        savedId.pop(feedDivId)
         console.log(savedId)
-    }
+    } 
   } 
 
 //   My watchlist link
