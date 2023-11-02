@@ -1,7 +1,7 @@
 
 
 
-const getFeedHtml = (movie,feedDiv) =>{
+const getFeedHtml = (movie, movieArr) =>{
     return `
     <div class="feed" id="${movie.imdbID}">
         <img class="img-poster"
@@ -12,14 +12,26 @@ const getFeedHtml = (movie,feedDiv) =>{
         <p class="duration">${movie.Runtime}</p>
         <p class="genre">${movie.Genre}</p>
         <button class="watchlist-button-${movie.imdbID} add-remove-btn">
-        <img src=${feedDiv.id === 'feed-search' ? "./Images/add_icon.png" : "./Images/remove_icon.png"}> 
-        ${feedDiv.id === 'feed-search' ? "Watchlist" : "Remove"}</button>
+        <img src=${movieArr.includes(movie.imdbID) ?  "./Images/remove_icon.png" : "./Images/add_icon.png"}> 
+        ${movieArr.includes(movie.imdbID) ?  "Remove" : "Watchlist"}</button>
         <p class="plot">${movie.Plot}
         </p>
     </div>
     <hr>
     `
 }
+
+async function getSearchFeed(movieArr, movie, htmlArr, feedDiv){
+    let movieEl = movie.startsWith("tt") ? await movieFetchId(movie) : await movieFetch(movie)
+    console.log(movieEl)
+    if(!movieArr.includes(movieEl.imdbID)){
+        feedDiv.innerHTML =''
+        htmlArr.unshift(getFeedHtml(movieEl,movieArr))
+        movieArr.unshift(movie.imdbID)
+        feedDiv.innerHTML =htmlArr 
+    }
+          
+            }
 
 // fetching the API
 async function movieFetch(movieTitle){
@@ -44,5 +56,5 @@ const saveLocalStorage = movieArray =>{
 
 
 
-export{getFeedHtml, movieFetch, movieFetchId, saveLocalStorage}
+export{getFeedHtml, getSearchFeed, movieFetch, movieFetchId, saveLocalStorage}
 
