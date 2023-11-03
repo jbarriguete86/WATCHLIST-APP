@@ -21,14 +21,17 @@ const getFeedHtml = (movie, movieArr) =>{
     `
 }
 
-async function getSearchFeed(movieArr, movie, htmlArr, feedDiv){
+async function setFeedHtml(movieArr, movie, htmlArr, feedDiv){
     let movieEl = movie.startsWith("tt") ? await movieFetchId(movie) : await movieFetch(movie)
     console.log(movieEl)
     if(!movieArr.includes(movieEl.imdbID)){
         feedDiv.innerHTML =''
+        console.log(getFeedHtml(movieEl,movieArr))
         htmlArr.unshift(getFeedHtml(movieEl,movieArr))
+        console.log(htmlArr.unshift(getFeedHtml(movieEl,movieArr))) 
         movieArr.unshift(movie.imdbID)
-        feedDiv.innerHTML =htmlArr 
+        feedDiv.innerHTML = htmlArr
+        
     }
           
             }
@@ -56,5 +59,5 @@ const saveLocalStorage = movieArray =>{
 
 
 
-export{getFeedHtml, getSearchFeed, movieFetch, movieFetchId, saveLocalStorage}
+export{getFeedHtml, setFeedHtml, movieFetch, movieFetchId, saveLocalStorage}
 

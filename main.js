@@ -1,4 +1,4 @@
-import {getFeedHtml, getSearchFeed, movieFetch, movieFetchId, saveLocalStorage} from './utilities.js'
+import {getFeedHtml, setFeedHtml, movieFetch, movieFetchId, saveLocalStorage} from './utilities.js'
 
 
 const searchInput = document.getElementById('search-input')
@@ -42,8 +42,8 @@ if (searchHtml){
             savedId.unshift(data)
         }
         savedId.forEach(async id =>{
-            await getSearchFeed(moviesId, id, setFeed, searchHtml)
-            document.querySelector(`.watchlist-button-${id}`).innerHTML = `<img src="./Images/remove_icon.png"> Remove from watchlist`
+            await setFeedHtml(savedId, id, setFeed, searchHtml)
+            // document.querySelector(`.watchlist-button-${id}`).innerHTML = `<img src="./Images/remove_icon.png"> Remove from watchlist`
         })
             
         
@@ -62,7 +62,7 @@ if (searchHtml){
         // Search button
         if(e.target.id === 'search-btn'){
             if (searchInput.value !== ""){
-            getSearchFeed(moviesId, searchInput.value, setFeed, searchHtml)           
+                setFeedHtml(moviesId, searchInput.value, setFeed, searchHtml)           
             searchInput.value = ""
                 }
                 
