@@ -1,32 +1,16 @@
-import {getFeedHtml, setFeedHtml, movieFetch, movieFetchId, saveLocalStorage} from './utilities.js'
+import {getFeedHtml, movieFetch, movieFetchId, saveLocalStorage} from './utilities.js'
 
 
 const searchInput = document.getElementById('search-input')
 const searchHtml = document.getElementById('feed-search')
 const watchlistHtml = document.getElementById('feed-watchlist')
 const storedData = localStorage.getItem("myWatchlist")
-const receivedData = JSON.parse(storedData)
+let receivedData = JSON.parse(storedData)
 let savedId=[]
 let setFeed=[]
 let moviesId = []
 
-function loadLocalStorage(feedDiv){
-        if (!receivedData.length <= 0) {
-            feedDiv.innerHTML =""
-            savedId = receivedData
-            savedId.forEach(async(element) =>{
-                let movieEl = await movieFetchId(element)
-                setFeed.unshift(getFeedHtml(movieEl))
-                feedDiv.innerHTML = setFeed
-        })} else {
-            feedDiv.innerHTML = 
-            `<div class="empty-feed">
-            <p>Your watchlist is looking a little empty...</p>
-            <a href="index.html"><img src="./Images/add_icon.png"> Let's add some movies!</a>
-            </div>`
-        }
-    
-}
+
 
   
 
@@ -35,69 +19,71 @@ if (searchHtml){
 
     //----------------------------------search a movie code-----------------------------------------------------------------------------------------
     //localstorage access
-    console.log(receivedData)
+    window.addEventListener("load", async(e)=>{
+        if(receivedData){
+            for (const data of receivedData){
+                const movieEl = data.startsWith("tt") ? await movieFetchId(data) : await movieFetch(data)
+                moviesId.unshift(data)
+                savedId.unshift(data)
+                setFeed.unshift(await getFeedHtml(movieEl, receivedData))
+                searchHtml.innerHTML = setFeed
+            }
+            receivedData = ""
+            } else{
+             searchHtml.innerHTML =
+             `
+             <div class="empty-feed">
+                <img src="./Images/Icon.png" alt="explore icon">
+                <p>Start exploring</p>
+                </div>
+             `   
+            }
+    })
 
-    if(receivedData){
-        for (const data of receivedData){
-            savedId.unshift(data)
-        }
-        savedId.forEach(async id =>{
-            await setFeedHtml(savedId, id, setFeed, searchHtml)
-            // document.querySelector(`.watchlist-button-${id}`).innerHTML = `<img src="./Images/remove_icon.png"> Remove from watchlist`
-        })
-            
-        
-        // getSearchFeed(moviesId, id, setFeed, searchHtml)
-            // moviesId.forEach(storedMovie =>{
-                // getSearchFeed(moviesId, storedMovie, setFeed, searchHtml)
-            // })
-        }
-        
     
-    // console.log(receivedData)
-    // console.log(savedId)
-
 
     document.addEventListener('click', async (e)=>{
         // Search button
         if(e.target.id === 'search-btn'){
+            console.log(savedId)
             if (searchInput.value !== ""){
-                setFeedHtml(moviesId, searchInput.value, setFeed, searchHtml)           
-            searchInput.value = ""
+                    const movieEl = searchInput.value.startsWith("tt") ? await movieFetchId(searchInput.value) : await movieFetch(searchInput.value)
+                    if(!moviesId.includes(movieEl.imdbID)){
+                        setFeed.unshift(await getFeedHtml(movieEl, savedId))
+                        console.log(setFeed)
+                        moviesId.unshift(movieEl.imdbID)
+                    }
+                 searchHtml.innerHTML = setFeed
+                //  savedId.forEach(id =>{
+                //     if(moviesId.includes(id)){
+                //         const watchlistBtn = document.querySelector(`.watchlist-button-${id}`)
+                //         watchlistBtn.innerHTML =`<img src="./Images/remove_icon.png"> Remove from watchlist`
+                //     } else {
+                //         watchlistBtn.innerHTML = `<img src="./Images/add_icon.png"> Watchlist`
+                //     }
+                    
+                //  })
                 }
                 
             }
                     
-                
-        // watchlist button
-    //     if (e.target.classList.contains("add-remove-btn")) {
-    //     const feedDivId = e.target.closest(".feed").id
-    //     const watchlistBtn =  document.querySelector(`.watchlist-button-${feedDivId}`)
-    //     if (!savedId.includes(feedDivId)){
-    //         savedId.unshift(feedDivId)
-    //         watchlistBtn.innerHTML = `<img src="./Images/remove_icon.png"> Remove from watchlist`
-    //         console.log(savedId)
-    //     } else{
-    //         const index = savedId.indexOf(feedDivId)
-    //         savedId.splice(index, 1)
-    //         watchlistBtn.innerHTML = `<img src="./Images/add_icon.png"> Watchlist`
-    //         console.log(savedId)
-    //     } 
-    //   } 
-
     if (e.target.classList.contains("add-remove-btn")) {
         const feedDivId = e.target.closest(".feed").id
         const watchlistBtn =  document.querySelector(`.watchlist-button-${feedDivId}`)
-        console.log(watchlistBtn)
+        console.log(savedId)
+        console.log(moviesId)
         if (!savedId.includes(feedDivId)){
             savedId.unshift(feedDivId)
             watchlistBtn.innerHTML = `<img src="./Images/remove_icon.png"> Remove from watchlist`
             console.log(savedId)
+        console.log(moviesId)
         } else{
             const index = savedId.indexOf(feedDivId)
             savedId.splice(index, 1)
+            moviesId.splice(index,1)
             watchlistBtn.innerHTML = `<img src="./Images/add_icon.png"> Watchlist`
             console.log(savedId)
+            console.log(moviesId)
         } 
       }
 
@@ -106,10 +92,13 @@ if (searchHtml){
     
     //   My watchlist link
     if (e.target.id === 'watchlist-page'){
-        if(savedId){
+        if(savedId.length > 0){
             saveLocalStorage(savedId)
-            console.log(storedData)
+        }else{
+            localStorage.removeItem('myWatchlist')
         }
+        
+        
     }
 
 })
@@ -118,10 +107,25 @@ if (searchHtml){
     
     //----------------------------------watchlist code-----------------------------------------------------------------------------------------
     //local storage access
-    loadLocalStorage(watchlistHtml)
+    if(receivedData){
+        for (const data of receivedData){
+            const movieEl = data.startsWith("tt") ? await movieFetchId(data) : await movieFetch(data)
+            moviesId.unshift(data)
+            savedId.unshift(data)
+            setFeed.unshift(await getFeedHtml(movieEl, receivedData))
+            watchlistHtml.innerHTML = setFeed
+        }
+        receivedData = ""
+        } else {
+            watchlistHtml.innerHTML = 
+            `<div class="empty-feed">
+            <p>Your watchlist is looking a little empty...</p>
+            <a href="index.html"><img src="./Images/add_icon.png"> Let's add some movies!</a>
+            </div>`
 
-    console.log(receivedData)
-    console.log(savedId)
+        }
+
+
 
 
   document.addEventListener('click', e=>{
@@ -129,27 +133,39 @@ if (searchHtml){
     // Remove button
     if (e.target.classList.contains("add-remove-btn")) {
         const feedDivId = e.target.closest(".feed").id
-        const removeBtn =  document.querySelector(`.watchlist-button-${feedDivId}`)
         const index = savedId.indexOf(feedDivId)
-        console.log(savedId)
-        savedId.splice(index, 1)
-            setFeed=[]
-            localStorage.clear()
-            saveLocalStorage(savedId)
-            loadLocalStorage(watchlistHtml) 
+        setFeed=[]
+        savedId.splice(index,1)
+        if(savedId.length>0){
+            savedId.forEach(async(id) =>{
+                const movieEl = id.startsWith("tt") ? await movieFetchId(id) : await movieFetch(id)
+                setFeed.unshift(await getFeedHtml(movieEl,savedId))
+                watchlistHtml.innerHTML = setFeed 
+            })
+        } else {
+            watchlistHtml.innerHTML = 
+            `<div class="empty-feed">
+            <p>Your watchlist is looking a little empty...</p>
+            <a href="index.html"><img src="./Images/add_icon.png"> Let's add some movies!</a>
+            </div>`
             
         }
+            
+        }
+
     
         if (e.target.id === 'search-page'){
-            if(savedId){
-                console.log(savedId)
+            if(savedId.length >0){
                 saveLocalStorage(savedId)
+            } else{
+                localStorage.removeItem('myWatchlist')
             }
         }
 
     })
 
 }
+
 
 
 

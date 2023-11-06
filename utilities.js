@@ -1,8 +1,10 @@
 
 
 
-const getFeedHtml = (movie, movieArr) =>{
-    return `
+//main feed function
+
+const getFeedHtml = async (movie, movieArr) =>{
+        return `
     <div class="feed" id="${movie.imdbID}">
         <img class="img-poster"
             src="${movie.Poster}"
@@ -13,38 +15,25 @@ const getFeedHtml = (movie, movieArr) =>{
         <p class="genre">${movie.Genre}</p>
         <button class="watchlist-button-${movie.imdbID} add-remove-btn">
         <img src=${movieArr.includes(movie.imdbID) ?  "./Images/remove_icon.png" : "./Images/add_icon.png"}> 
-        ${movieArr.includes(movie.imdbID) ?  "Remove" : "Watchlist"}</button>
+        ${movieArr.includes(movie.imdbID) ?  "Remove from watchlist" : "Watchlist"}</button>
         <p class="plot">${movie.Plot}
         </p>
     </div>
     <hr>
     `
+    
+    
 }
 
-async function setFeedHtml(movieArr, movie, htmlArr, feedDiv){
-    let movieEl = movie.startsWith("tt") ? await movieFetchId(movie) : await movieFetch(movie)
-    console.log(movieEl)
-    if(!movieArr.includes(movieEl.imdbID)){
-        feedDiv.innerHTML =''
-        console.log(getFeedHtml(movieEl,movieArr))
-        htmlArr.unshift(getFeedHtml(movieEl,movieArr))
-        console.log(htmlArr.unshift(getFeedHtml(movieEl,movieArr))) 
-        movieArr.unshift(movie.imdbID)
-        feedDiv.innerHTML = htmlArr
-        
-    }
-          
-            }
-
 // fetching the API
-async function movieFetch(movieTitle){
+const movieFetch =async movieTitle =>{
     const res = await fetch(`https://www.omdbapi.com/?apikey=9814e296&t=${movieTitle}`)
     const data = await res.json()
         return data
 
 }
 
-async function movieFetchId(movieId){
+const movieFetchId = async movieId =>{
     const res = await fetch(`https://www.omdbapi.com/?apikey=9814e296&i=${movieId}`)
     const data = await res.json()
         return data
@@ -59,5 +48,5 @@ const saveLocalStorage = movieArray =>{
 
 
 
-export{getFeedHtml, setFeedHtml, movieFetch, movieFetchId, saveLocalStorage}
+export{getFeedHtml, movieFetch, movieFetchId, saveLocalStorage}
 
