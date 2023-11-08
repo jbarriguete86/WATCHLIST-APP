@@ -1,4 +1,4 @@
-import {getFeedHtml, movieFetch, movieFetchId, saveLocalStorage} from './utilities.js'
+import {getFeedHtml, modifyFeed, removeId, movieFetch, movieFetchId, saveLocalStorage} from './utilities.js'
 
 
 const searchInput = document.getElementById('search-input')
@@ -12,23 +12,21 @@ let moviesId = []
 
 
 
-  
-
-
 if (searchHtml){
 
     //----------------------------------search a movie code-----------------------------------------------------------------------------------------
     //localstorage access
     window.addEventListener("load", async(e)=>{
         if(receivedData){
-            for (const data of receivedData){
-                const movieEl = data.startsWith("tt") ? await movieFetchId(data) : await movieFetch(data)
+            await Promise.all(receivedData.map(async(data) =>{
                 moviesId.unshift(data)
                 savedId.unshift(data)
-                setFeed.unshift(await getFeedHtml(movieEl, receivedData))
-                searchHtml.innerHTML = setFeed
-            }
-            receivedData = ""
+                const newFeed = await modifyFeed(data, receivedData)
+                const index = receivedData.indexOf(data)
+                setFeed[index] = newFeed
+            }))
+            searchHtml.innerHTML = setFeed.join("")
+            receivedData = []
             } else{
              searchHtml.innerHTML =
              `
@@ -45,46 +43,27 @@ if (searchHtml){
     document.addEventListener('click', async (e)=>{
         // Search button
         if(e.target.id === 'search-btn'){
-            console.log(savedId)
             if (searchInput.value !== ""){
-                    const movieEl = searchInput.value.startsWith("tt") ? await movieFetchId(searchInput.value) : await movieFetch(searchInput.value)
-                    if(!moviesId.includes(movieEl.imdbID)){
-                        setFeed.unshift(await getFeedHtml(movieEl, savedId))
-                        console.log(setFeed)
-                        moviesId.unshift(movieEl.imdbID)
-                    }
-                 searchHtml.innerHTML = setFeed
-                //  savedId.forEach(id =>{
-                //     if(moviesId.includes(id)){
-                //         const watchlistBtn = document.querySelector(`.watchlist-button-${id}`)
-                //         watchlistBtn.innerHTML =`<img src="./Images/remove_icon.png"> Remove from watchlist`
-                //     } else {
-                //         watchlistBtn.innerHTML = `<img src="./Images/add_icon.png"> Watchlist`
-                //     }
-                    
-                //  })
+                const movieEl = await movieFetch(searchInput.value)
+                if(!moviesId.includes(movieEl.imdbID)){
+                    moviesId.unshift(movieEl.imdbID)
+                    setFeed.unshift(await modifyFeed(searchInput.value, savedId))
+                }
+                    searchInput.value=""
+                    searchHtml.innerHTML = setFeed.join("")
                 }
                 
             }
                     
     if (e.target.classList.contains("add-remove-btn")) {
         const feedDivId = e.target.closest(".feed").id
-        const watchlistBtn =  document.querySelector(`.watchlist-button-${feedDivId}`)
-        console.log(savedId)
-        console.log(moviesId)
-        if (!savedId.includes(feedDivId)){
-            savedId.unshift(feedDivId)
-            watchlistBtn.innerHTML = `<img src="./Images/remove_icon.png"> Remove from watchlist`
-            console.log(savedId)
-        console.log(moviesId)
-        } else{
-            const index = savedId.indexOf(feedDivId)
-            savedId.splice(index, 1)
-            moviesId.splice(index,1)
-            watchlistBtn.innerHTML = `<img src="./Images/add_icon.png"> Watchlist`
-            console.log(savedId)
-            console.log(moviesId)
-        } 
+        !savedId.includes(feedDivId) ? savedId.unshift(feedDivId) : removeId(feedDivId, savedId) 
+            await Promise.all(moviesId.map(async(id) =>{
+                const newFeed = await modifyFeed(id, savedId)
+                const index = moviesId.indexOf(id)
+                setFeed[index] = newFeed
+            }))
+            searchHtml.innerHTML = setFeed.join("")
       }
 
 
@@ -108,14 +87,15 @@ if (searchHtml){
     //----------------------------------watchlist code-----------------------------------------------------------------------------------------
     //local storage access
     if(receivedData){
-        for (const data of receivedData){
-            const movieEl = data.startsWith("tt") ? await movieFetchId(data) : await movieFetch(data)
+        await Promise.all(receivedData.map(async(data) =>{
             moviesId.unshift(data)
             savedId.unshift(data)
-            setFeed.unshift(await getFeedHtml(movieEl, receivedData))
-            watchlistHtml.innerHTML = setFeed
-        }
-        receivedData = ""
+            const newFeed = await modifyFeed(data, receivedData)
+            const index = receivedData.indexOf(data)
+            setFeed[index] = newFeed
+        }))
+        watchlistHtml.innerHTML = setFeed.join("")
+        receivedData = []
         } else {
             watchlistHtml.innerHTML = 
             `<div class="empty-feed">
@@ -128,20 +108,20 @@ if (searchHtml){
 
 
 
-  document.addEventListener('click', e=>{
+  document.addEventListener('click', async(e)=>{
     
     // Remove button
     if (e.target.classList.contains("add-remove-btn")) {
         const feedDivId = e.target.closest(".feed").id
-        const index = savedId.indexOf(feedDivId)
+        savedId.includes(feedDivId) ? removeId(feedDivId, savedId) : ""
         setFeed=[]
-        savedId.splice(index,1)
         if(savedId.length>0){
-            savedId.forEach(async(id) =>{
-                const movieEl = id.startsWith("tt") ? await movieFetchId(id) : await movieFetch(id)
-                setFeed.unshift(await getFeedHtml(movieEl,savedId))
-                watchlistHtml.innerHTML = setFeed 
-            })
+            await Promise.all(savedId.map(async(id) =>{
+                const newFeed = await modifyFeed(id, savedId)
+                const index = savedId.indexOf(id)
+                setFeed[index] = newFeed 
+            }))
+            watchlistHtml.innerHTML = setFeed.join("")
         } else {
             watchlistHtml.innerHTML = 
             `<div class="empty-feed">

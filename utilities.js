@@ -1,7 +1,22 @@
 
 
 
-//main feed function
+// fetching the API
+const movieFetch =async movieTitle =>{
+    const res = await fetch(`https://www.omdbapi.com/?apikey=9814e296&t=${movieTitle}`)
+    const data = await res.json()
+        return data
+
+}
+
+const movieFetchId = async movieId =>{
+    const res = await fetch(`https://www.omdbapi.com/?apikey=9814e296&i=${movieId}`)
+    const data = await res.json()
+        return data
+}
+
+
+//manipulating the feed
 
 const getFeedHtml = async (movie, movieArr) =>{
         return `
@@ -20,23 +35,18 @@ const getFeedHtml = async (movie, movieArr) =>{
         </p>
     </div>
     <hr>
-    `
-    
-    
+    `  
 }
 
-// fetching the API
-const movieFetch =async movieTitle =>{
-    const res = await fetch(`https://www.omdbapi.com/?apikey=9814e296&t=${movieTitle}`)
-    const data = await res.json()
-        return data
-
+const modifyFeed = async(movie, movieArr) =>{
+    const movieEl = movie.startsWith("tt") ? await movieFetchId(movie) : await movieFetch(movie)
+    return getFeedHtml(movieEl, movieArr)
 }
 
-const movieFetchId = async movieId =>{
-    const res = await fetch(`https://www.omdbapi.com/?apikey=9814e296&i=${movieId}`)
-    const data = await res.json()
-        return data
+
+const removeId = (idEl, movieArr) =>{
+    const Index = movieArr.indexOf(idEl)
+    movieArr.splice(Index, 1)
 }
 
 // local storage functions
@@ -48,5 +58,8 @@ const saveLocalStorage = movieArray =>{
 
 
 
-export{getFeedHtml, movieFetch, movieFetchId, saveLocalStorage}
+export{getFeedHtml, modifyFeed,removeId, movieFetch, movieFetchId, saveLocalStorage}
+
+
+
 
