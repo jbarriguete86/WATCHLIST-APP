@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div id="main-container" class="container">
         <header>
             <h1>Find your film</h1>
             <a href="index.html" id="search-page">Search for movies</a>
@@ -23,12 +23,16 @@
         <main id="feed-watchlist">
             <div class="empty-feed">
             <p>Your watchlist is looking a little empty...</p>
-            <a href="index.html"><img src="./Images/add_icon.png"> Let’s add some movies!</a>
+            <a id="empty-watchlist" href="index.html" class="dark-font1"><img src="./Images/add_icon.png"> Let’s add some movies!</a>
             </div>
             <!-- The movies will be populated with js -->
         </main>
-    </div>
+        <div class="dark-btn-container">
+            <button id="drk-btn">Light mode</button>
+        </div>
     <script src="main.js" type="module"></script>
+    </div>
+    
 </body>
 
 </html>

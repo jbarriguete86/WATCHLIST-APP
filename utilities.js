@@ -18,30 +18,37 @@ const movieFetchId = async movieId =>{
 
 //manipulating the feed
 
-const getFeedHtml = async (movie, movieArr) =>{
+const getFeedHtml = async (movie, movieArr,drkMode) =>{
         return `
-    <div class="feed" id="${movie.imdbID}">
+    <div class="feed ${drkMode ? "dark-bckg" : " "}" id="${movie.imdbID}">
         <img class="img-poster"
             src="${movie.Poster}"
             alt="${movie.Title} poster" />
-        <h1 class="movie-title">${movie.Title} </h1>
-        <p class="rate">⭐ ${movie.Ratings[0].Value.replace(/\/10$/, "")}</p>
-        <p class="duration">${movie.Runtime}</p>
-        <p class="genre">${movie.Genre}</p>
-        <button class="watchlist-button-${movie.imdbID} add-remove-btn">
+        <h1 class="movie-title ${drkMode ? "dark-font1" : " "}">${movie.Title} </h1>
+        <p class="rate ${drkMode ? "dark-font1" : " "}">⭐ ${movie.Ratings[0].Value.replace(/\/10$/, "")}</p>
+        <p class="duration ${drkMode ? "dark-font1" : " "}">${movie.Runtime}</p>
+        <p class="genre ${drkMode ? "dark-font1" : " "}">${movie.Genre}</p>
+        <button class="watchlist-button-${movie.imdbID} add-remove-btn ${drkMode ? "dark-font1" : " "}">
         <img src=${movieArr.includes(movie.imdbID) ?  "./Images/remove_icon.png" : "./Images/add_icon.png"}> 
         ${movieArr.includes(movie.imdbID) ?  "Remove from watchlist" : "Watchlist"}</button>
-        <p class="plot">${movie.Plot}
+        <p class="plot ${drkMode ? "dark-font2" : " "}">${movie.Plot}
         </p>
     </div>
     <hr>
     `  
 }
 
-const modifyFeed = async(movie, movieArr) =>{
+const modifyFeed = async(movie, movieArr, drkMode) =>{
     const movieEl = movie.startsWith("tt") ? await movieFetchId(movie) : await movieFetch(movie)
-    return getFeedHtml(movieEl, movieArr)
+    return getFeedHtml(movieEl, movieArr, drkMode)
 }
+
+const loadFeed = async (movieArr, savedArr, stringArr, drkMode) =>{
+    await Promise.all(movieArr.map(async(id) =>{
+        const newFeed = await modifyFeed(id, savedArr, drkMode)
+        const index = movieArr.indexOf(id)
+        stringArr[index] = newFeed
+}))}
 
 
 const removeId = (idEl, movieArr) =>{
@@ -50,15 +57,12 @@ const removeId = (idEl, movieArr) =>{
 }
 
 // local storage functions
-const saveLocalStorage = movieArray =>{
-    const savedMovies = movieArray
-    localStorage.setItem("myWatchlist", JSON.stringify(savedMovies))
-}
 
 
 
 
-export{getFeedHtml, modifyFeed,removeId, movieFetch, movieFetchId, saveLocalStorage}
+
+export{getFeedHtml, modifyFeed, loadFeed, removeId, movieFetch, movieFetchId}
 
 
 

@@ -19,7 +19,8 @@ header,
 main,
 .container,
 .empty-feed,
-.searchbar{
+.searchbar,
+.dark-btn-container{
     display: flex;
 }
 
@@ -45,8 +46,11 @@ button{
     cursor: pointer;
 }
 
-a{
+a,
+a::before,
+a::after{
     text-decoration: none;
+    color: black;
     font-weight: 700;
 }
 /* HEADER */
@@ -120,13 +124,6 @@ main p {
     align-items: center;
     justify-content: center;
 }
-
-.empty-feed a{
-    color: black;
-}
-
-
-
 
 /* FEED */
 
@@ -210,6 +207,43 @@ hr {
     border: none;
     border-bottom: solid #E5E7EB 1px;
 }
+
+/* Dark mode function */
+.dark-btn-container {
+    margin: 2rem;
+    justify-content: right;
+    
+}
+
+#drk-btn {
+    height: 30px;
+    border-radius: 20px;
+}
+
+.dark-font1 {
+    color:#FFFFFF;
+}
+
+.dark-font2 {
+    color: #A5A5A5;
+}
+
+.dark-body {
+    background-color: black;
+}
+
+.dark-bckg {
+background-color: #121212;
+}
+
+.dark-btn {
+    background-color: #4B4B4B;
+}
+
+.dark-input{
+    background-color: #2E2E2F;
+}
+
 
 /* BREAK POINTS */
 
