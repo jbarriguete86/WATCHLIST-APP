@@ -229,8 +229,8 @@ background-color: #121212;
 /* BREAK POINTS */
 
 @media (min-width: 600px) {
-    .searchbar {
-        top: 45%
+    .container{
+        max-width: 1280px;
     }
 
     .empty-feed{
