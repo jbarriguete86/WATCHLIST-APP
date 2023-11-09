@@ -70,13 +70,12 @@ header {
 header h1 {
     font-size: 2rem;
     font-weight: 800;
-    margin-left: 1.8em;
+    margin-left: 1em;
 }
 
 header a {
     color: #ffffff;
     font-size: .87rem;
-    margin-right: 5em;
 }
 
 .searchbar {
@@ -102,8 +101,6 @@ input {
 
 /* MAIN */
 
-
-
 main {
     width: 100%;
     flex-direction: column;
@@ -118,7 +115,7 @@ main p {
 }
 
 .empty-feed{
-    width: 100%;
+    width: 50%;
     height: 500px; 
     flex-direction: column;
     align-items: center;
@@ -244,6 +241,10 @@ background-color: #121212;
     background-color: #2E2E2F;
 }
 
+.drk-img {
+    filter: brightness(0) invert(1);
+}
+
 
 /* BREAK POINTS */
 
@@ -252,13 +253,21 @@ background-color: #121212;
         top: 45%
     }
 
+    .empty-feed{
+        width: 100%;
+    }
 
     .feed {
         width: 80%;
     }
+    
+    header a{
+        margin-right: 5em;
+    }
 
     header h1 {
         font-size: 2.67rem;
+        margin-left: 1.8em;
     }
 
     header p {

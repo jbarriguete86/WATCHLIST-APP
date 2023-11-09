@@ -7,7 +7,6 @@ const searchBtn = document.getElementById('search-btn')
 const searchHtml = document.getElementById('feed-search')
 // watchlist elements
 const watchlistHtml = document.getElementById('feed-watchlist')
-const emptyWatchlist = document.getElementById('empty-watchlist')
 // shared elements
 const bodyEl = document.querySelector("body")
 const mainContainer = document.getElementById('main-container')
@@ -22,19 +21,21 @@ let setFeed=[]
 let moviesId = []
 
 const activeDark = ()=>{
+    darkMode = true
     bodyEl.classList.add("dark-body")
     mainContainer.classList.add('dark-bckg')
     darkBtn.classList.add('dark-btn', 'dark-font1')
     darkBtn.innerText = "Dark mode"
-    darkMode = true
+    
 }
 
 const inactiveDark = ()=>{
+    darkMode = false
     bodyEl.classList.remove("dark-body")
     mainContainer.classList.remove('dark-bckg')
     darkBtn.classList.remove('dark-btn', 'dark-font1')
     darkBtn.innerText = "Light mode"
-    darkMode = false
+    
 }
 
 
@@ -63,6 +64,7 @@ if (searchHtml){
         
             searchHtml.innerHTML = setFeed.join("")
             receivedData = []
+            receivedMode=[]
             } else{
              searchHtml.innerHTML =
              `
@@ -71,6 +73,7 @@ if (searchHtml){
                 <p>Start exploring</p>
                 </div>
              `   
+             receivedMode=[]
             }
     })
 
@@ -143,33 +146,44 @@ if (searchHtml){
     window.addEventListener("load", async()=>{
          if(receivedMode){
             activeDark()
-            emptyWatchlist.classList.add('dark-font1')
-        } else{
-            inactiveDark()
-        }
-        if(receivedData){
-            for (const data of receivedData){
-                moviesId.unshift(data)
-                savedId.unshift(data)
-            }
-            await loadFeed(moviesId,savedId,setFeed, darkMode)
-            watchlistHtml.innerHTML = setFeed.join("")
-            receivedData = []
-            } else {
-                console.log(receivedMode)
-                watchlistHtml.innerHTML = 
-                `<div class="empty-feed">
-                <p>Your watchlist is looking a little empty...</p>
-                <a id="empty-watchlist" class="${receivedMode ? emptyWatchlist.classList.add('dark-font1') : "" }" href="index.html"><img src="./Images/add_icon.png"> Let's add some movies!</a>
-                </div>`
-    
-            }
+            if(receivedData){
+                for (const data of receivedData){
+                    moviesId.unshift(data)
+                    savedId.unshift(data)
+                }
+                await loadFeed(moviesId,savedId,setFeed, darkMode)
+                watchlistHtml.innerHTML = setFeed.join("")
+                receivedData = []
+                receivedMode=[]
+                } else {
+                    watchlistHtml.innerHTML = 
+                    `<div class="empty-feed">
+                    <p>Your watchlist is looking a little empty...</p>
+                    <a class="${receivedMode ? "dark-font1" : "" }" href="index.html"><img id="empty-img" class="drk-img" src="./Images/add_icon.png"> Let's add some movies!</a>
+                    </div>`
+                    receivedMode=[]
+                }} else {
+                    inactiveDark()
+                    if(receivedData){
+                        for (const data of receivedData){
+                            moviesId.unshift(data)
+                            savedId.unshift(data)
+                        }
+                        await loadFeed(moviesId,savedId,setFeed, darkMode)
+                        watchlistHtml.innerHTML = setFeed.join("")
+                        receivedData = []
+                        receivedMode=[]
+                        } else {
+                            watchlistHtml.innerHTML = 
+                            `<div class="empty-feed">
+                            <p>Your watchlist is looking a little empty...</p>
+                            <a class="${receivedMode ? "dark-font1" : "" }" href="index.html"><img id="empty-img"  src="./Images/add_icon.png"> Let's add some movies!</a>
+                            </div>`
+                            receivedMode=[]
+                }}
+
     })
     
-
-
-
-
   document.addEventListener('click', async(e)=>{
     
     // Remove button
@@ -181,11 +195,10 @@ if (searchHtml){
             await loadFeed(savedId,savedId,setFeed, darkMode)
             watchlistHtml.innerHTML = setFeed.join("")
         } else {
-            console.log(darkMode)
             watchlistHtml.innerHTML = 
             `<div class="empty-feed">
             <p>Your watchlist is looking a little empty...</p>
-            <a id="empty-watchlist" class="${darkMode ? emptyWatchlist.classList.add('dark-font1') : "" }" href="index.html"><img src="./Images/add_icon.png"> Let's add some movies!</a>
+            <a id="empty-watchlist" class="${darkMode ? "dark-font1" : "" }" href="index.html"><img id="empty-img" class=${darkMode ? "drk-img" : ""} src="./Images/add_icon.png"> Let's add some movies!</a>
             </div>`
             
         }
@@ -196,17 +209,29 @@ if (searchHtml){
         if(e.target.id ==='drk-btn'){
             if(darkBtn.innerText === "Light mode"){
                 activeDark()
-                console.log(emptyWatchlist)
-                emptyWatchlist.classList.add('dark-font1')
+                if(savedId.length>0){
+                    await loadFeed(savedId,savedId,setFeed, darkMode)
+                    watchlistHtml.innerHTML = setFeed.join("")
+                } else{
+                    watchlistHtml.innerHTML = 
+                        `<div class="empty-feed">
+                        <p>Your watchlist is looking a little empty...</p>
+                        <a id="empty-watchlist" class="${darkMode ? "dark-font1" : "" }" href="index.html"><img id="empty-img" class="drk-img"src="./Images/add_icon.png"> Let's add some movies!</a>
+                        </div>`
+
+                } } else{
+                    inactiveDark()
+                    if(savedId.length>0){
+                        await loadFeed(savedId,savedId,setFeed, darkMode)
+                        watchlistHtml.innerHTML = setFeed.join("")
+                    } else{
+                        watchlistHtml.innerHTML = 
+                            `<div class="empty-feed">
+                            <p>Your watchlist is looking a little empty...</p>
+                            <a id="empty-watchlist" class="${darkMode ? "dark-font1" : "" }" href="index.html"><img id="empty-img"  src="./Images/add_icon.png"> Let's add some movies!</a>
+                            </div>`
+                }
                 
-            } else {
-                inactiveDark()
-                emptyWatchlist.classList.remove('dark-font1')
-            }
-    
-            if (savedId.length>0){
-                await loadFeed(savedId,savedId,setFeed, darkMode)
-                watchlistHtml.innerHTML = setFeed.join("")
             }
         }
 
