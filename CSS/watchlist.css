@@ -35,10 +35,9 @@ body{
 
 .container{
     margin: auto;
-   max-width: 1280px;
-   background-color: white;
+    background-color: white;
    flex-direction: column;
-   width: 90%;
+   width: 100%;
 }
 
 a,
@@ -70,34 +69,15 @@ header {
 header h1 {
     font-size: 2rem;
     font-weight: 800;
-    margin-left: 1em;
+    margin-left: 1.8em;
 }
 
 header a {
     color: #ffffff;
-    font-size: .87rem;
+    font-size: 1rem;
 }
 
-.searchbar {
-    margin: 0  auto;
-    margin-top: -15px;
-    flex-direction: row;
-    justify-content:center;
-    width: 84%;
-    height: 38px;
 
-}
-
-input {
-    width: 60%;
-    border-radius: 5px;
-}
-
-.searchbar button {
-    font-weight: 500;
-    width: 30%;
-    border-radius: 5px;
-}
 
 /* MAIN */
 

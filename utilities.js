@@ -19,19 +19,21 @@ const movieFetchId = async movieId =>{
 //manipulating the feed
 
 const getFeedHtml = async (movie, movieArr,drkMode) =>{
+    const {imdbID, Poster, Title, Ratings, Runtime, Genre, Plot} = movie
+
         return `
-    <div class="feed ${drkMode ? "dark-bckg" : " "}" id="${movie.imdbID}">
+    <div class="feed ${drkMode && "dark-bckg"}" id="${imdbID}">
         <img class="img-poster"
-            src="${movie.Poster}"
-            alt="${movie.Title} poster" />
-        <h1 class="movie-title ${drkMode ? "dark-font1" : " "}">${movie.Title} </h1>
-        <p class="rate ${drkMode ? "dark-font1" : " "}">⭐ ${movie.Ratings[0].Value.replace(/\/10$/, "")}</p>
-        <p class="duration ${drkMode ? "dark-font1" : " "}">${movie.Runtime}</p>
-        <p class="genre ${drkMode ? "dark-font1" : " "}">${movie.Genre}</p>
-        <button class="watchlist-button-${movie.imdbID} add-remove-btn ${drkMode ? "dark-font1" : " "}">
-        <img id="add-remove-img" class=${drkMode ? "drk-img" : ""} src=${movieArr.includes(movie.imdbID) ?  "./Images/remove_icon.png" : "./Images/add_icon.png" }> 
-        ${movieArr.includes(movie.imdbID) ?  "Remove from watchlist" : "Watchlist"}</button>
-        <p class="plot ${drkMode ? "dark-font2" : " "}">${movie.Plot}
+            src="${Poster}"
+            alt="${Title} poster" />
+        <h1 class="movie-title ${drkMode && "dark-font1"}">${Title} </h1>
+        <p class="rate ${drkMode && "dark-font1"}">⭐ ${Ratings[0].Value.replace(/\/10$/, "")}</p>
+        <p class="duration ${drkMode && "dark-font1"}">${Runtime}</p>
+        <p class="genre ${drkMode && "dark-font1"}">${Genre}</p>
+        <button class="watchlist-button-${imdbID} add-remove-btn ${drkMode && "dark-font1"}">
+        <img id="add-remove-img" class=${drkMode && "drk-img"} src=${movieArr.includes(imdbID) ?  "./Images/remove_icon.png" : "./Images/add_icon.png" }> 
+        ${movieArr.includes(imdbID) ?  "Remove from watchlist" : "Watchlist"}</button>
+        <p class="plot ${drkMode && "dark-font2"}">${Plot}
         </p>
     </div>
     <hr>
@@ -57,12 +59,20 @@ const removeId = (idEl, movieArr) =>{
 }
 
 // local storage functions
+const handleWatchList =(drkMode, savedArr)=> {
+    localStorage.setItem("myDarkMode", JSON.stringify(drkMode))
+    
+    if(savedId.length >0){
+        localStorage.setItem("myWatchlist", JSON.stringify(savedArr))
+    } else{
+        localStorage.removeItem('myWatchlist')
+    }
+}
 
 
 
 
-
-export{getFeedHtml, modifyFeed, loadFeed, removeId, movieFetch, movieFetchId}
+export{getFeedHtml, modifyFeed, loadFeed, handleWatchList, removeId, movieFetch, movieFetchId}
 
 
 
