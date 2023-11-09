@@ -60,7 +60,7 @@ if (searchHtml){
                 moviesId.unshift(data)
                 savedId.unshift(data)
             }
-            await loadFeed(moviesId,savedId,setFeed, darkMode)
+            await loadFeed(moviesId,receivedData,setFeed, receivedMode)
         
             searchHtml.innerHTML = setFeed.join("")
             receivedData = []
@@ -107,16 +107,38 @@ if (searchHtml){
             activeDark()
             searchBtn.classList.add('dark-btn', 'dark-font1')
             searchInput.classList.add('dark-input','dark-font1')
+            if (moviesId.length>0){
+                await loadFeed(moviesId,savedId,setFeed, darkMode)
+                searchHtml.innerHTML = setFeed.join("")
+            } else{
+                searchHtml.innerHTML =
+             `
+             <div class="empty-feed">
+                <img src="./Images/Icon.png" alt="explore icon">
+                <p>Start exploring</p>
+                </div>
+             `   
+            }
+
         } else {
             inactiveDark()
             searchBtn.classList.remove('dark-btn', 'dark-font1')
             searchInput.classList.remove('dark-input','dark-font1')
+            if (moviesId.length>0){
+                await loadFeed(moviesId,savedId,setFeed, darkMode)
+                searchHtml.innerHTML = setFeed.join("")
+            } else{
+                searchHtml.innerHTML =
+             `
+             <div class="empty-feed">
+                <img src="./Images/Icon.png" alt="explore icon">
+                <p>Start exploring</p>
+                </div>
+             `   
+            }
         }
 
-        if (moviesId.length>0){
-            await loadFeed(moviesId,savedId,setFeed, darkMode)
-            searchHtml.innerHTML = setFeed.join("")
-        }
+        
     }
 
 
@@ -151,7 +173,7 @@ if (searchHtml){
                     moviesId.unshift(data)
                     savedId.unshift(data)
                 }
-                await loadFeed(moviesId,savedId,setFeed, darkMode)
+                await loadFeed(moviesId,receivedData,setFeed, receivedMode)
                 watchlistHtml.innerHTML = setFeed.join("")
                 receivedData = []
                 receivedMode=[]

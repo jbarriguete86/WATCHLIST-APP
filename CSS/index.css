@@ -193,6 +193,7 @@ main p {
 
 }
 
+
 .plot {
     grid-area: plot;
     font-size: .6rem;
@@ -243,6 +244,10 @@ background-color: #121212;
 
 .dark-input{
     background-color: #2E2E2F;
+}
+
+.drk-img {
+    filter: brightness(0) invert(1);
 }
 
 

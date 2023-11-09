@@ -29,7 +29,7 @@ const getFeedHtml = async (movie, movieArr,drkMode) =>{
         <p class="duration ${drkMode ? "dark-font1" : " "}">${movie.Runtime}</p>
         <p class="genre ${drkMode ? "dark-font1" : " "}">${movie.Genre}</p>
         <button class="watchlist-button-${movie.imdbID} add-remove-btn ${drkMode ? "dark-font1" : " "}">
-        <img src=${movieArr.includes(movie.imdbID) ?  "./Images/remove_icon.png" : "./Images/add_icon.png"}> 
+        <img id="add-remove-img" class=${drkMode ? "drk-img" : ""} src=${movieArr.includes(movie.imdbID) ?  "./Images/remove_icon.png" : "./Images/add_icon.png" }> 
         ${movieArr.includes(movie.imdbID) ?  "Remove from watchlist" : "Watchlist"}</button>
         <p class="plot ${drkMode ? "dark-font2" : " "}">${movie.Plot}
         </p>
