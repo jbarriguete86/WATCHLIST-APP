@@ -59,20 +59,11 @@ const removeId = (idEl, movieArr) =>{
 }
 
 // local storage functions
-const handleWatchList =(drkMode, savedArr)=> {
-    localStorage.setItem("myDarkMode", JSON.stringify(drkMode))
-    
-    if(savedId.length >0){
-        localStorage.setItem("myWatchlist", JSON.stringify(savedArr))
-    } else{
-        localStorage.removeItem('myWatchlist')
-    }
-}
 
 
 
 
-export{getFeedHtml, modifyFeed, loadFeed, handleWatchList, removeId, movieFetch, movieFetchId}
+export{getFeedHtml, modifyFeed, loadFeed, removeId, movieFetch, movieFetchId}
 
 
 

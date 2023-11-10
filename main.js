@@ -1,4 +1,4 @@
-import {getFeedHtml, modifyFeed, loadFeed, handleWatchList, removeId, movieFetch, movieFetchId} from './utilities.js'
+import {getFeedHtml, modifyFeed, loadFeed, removeId, movieFetch, movieFetchId} from './utilities.js'
 
 
 // search movies elements
@@ -39,6 +39,17 @@ const inactiveDark = ()=>{
     
 }
 
+// local storage function
+
+const handleWatchList =()=> {
+    localStorage.setItem("myDarkMode", JSON.stringify(darkMode))
+    
+    if(savedId.length >0){
+        localStorage.setItem("myWatchlist", JSON.stringify(savedId))
+    } else{
+        localStorage.removeItem('myWatchlist')
+    }
+}
 
 
 // Rendering pages main functions
@@ -143,7 +154,7 @@ const renderMainPage = ()=>{
 
     
     //   My watchlist link
-    e.target.id === 'watchlist-page' && handleWatchList(darkMode, savedId)
+    e.target.id === 'watchlist-page' && handleWatchList ()
 
    
 
@@ -245,7 +256,7 @@ const renderWatchlistPage = ()=>{
 
    
        // Search movies link
-       e.target.id === 'search-page' && handleWatchList(darkMode, savedId)
+       e.target.id === 'search-page' && handleWatchList()
            
 
    })
